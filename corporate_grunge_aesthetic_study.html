@@ -1,0 +1,1613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AESTHETICA — Corporate Grunge</title>
+<link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Share+Tech+Mono&family=Courier+Prime:wght@400;700&family=Anton&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --grunge-bg: #1a1612;
+    --grunge-paper: #c8b99a;
+    --grunge-ink: #0f0d0b;
+    --grunge-rust: #8b3a1e;
+    --grunge-olive: #5a5e2e;
+    --grunge-ash: #3d3830;
+    --grunge-cream: #e8dcc8;
+    --grunge-yellow: #d4a017;
+    --grunge-static: #a09080;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--grunge-bg);
+    color: var(--grunge-cream);
+    font-family: 'Courier Prime', monospace;
+    overflow-x: hidden;
+    cursor: crosshair;
+  }
+
+  /* NOISE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 0;
+    border-bottom: 3px solid var(--grunge-rust);
+    background: rgba(15,13,11,0.95);
+    backdrop-filter: blur(2px);
+  }
+
+  .nav-inner {
+    display: flex;
+    align-items: stretch;
+    height: 52px;
+  }
+
+  .nav-logo {
+    font-family: 'Black Ops One', sans-serif;
+    font-size: 20px;
+    color: var(--grunge-cream);
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    border-right: 2px solid var(--grunge-ash);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    position: relative;
+  }
+
+  .nav-logo::after {
+    content: '™';
+    font-size: 10px;
+    position: absolute;
+    top: 10px; right: 14px;
+    color: var(--grunge-rust);
+    font-family: monospace;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: stretch;
+    list-style: none;
+    flex: 1;
+  }
+
+  .nav-links li a {
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    color: var(--grunge-static);
+    text-decoration: none;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-right: 1px solid rgba(61,56,48,0.5);
+    transition: all 0.15s;
+    position: relative;
+    cursor: pointer;
+  }
+
+  .nav-links li a:hover {
+    color: var(--grunge-cream);
+    background: rgba(139,58,30,0.2);
+  }
+
+  .nav-links li a.active {
+    color: var(--grunge-yellow);
+    border-bottom: 3px solid var(--grunge-yellow);
+  }
+
+  .nav-tag {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--grunge-rust);
+    letter-spacing: 1px;
+    border-left: 2px solid var(--grunge-ash);
+  }
+
+  /* SECTIONS */
+  section {
+    min-height: 100vh;
+    display: none;
+    padding-top: 52px;
+  }
+  section.active { display: block; }
+
+  /* ============ HERO ============ */
+  #hero {
+    position: relative;
+    overflow: hidden;
+    background: var(--grunge-bg);
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: calc(100vh - 52px);
+  }
+
+  .hero-left {
+    padding: 60px 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-right: 2px solid var(--grunge-ash);
+    position: relative;
+  }
+
+  .hero-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: var(--grunge-rust);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .hero-label::before {
+    content: '';
+    display: inline-block;
+    width: 30px;
+    height: 1px;
+    background: var(--grunge-rust);
+  }
+
+  .hero-title {
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(52px, 7vw, 96px);
+    line-height: 0.9;
+    text-transform: uppercase;
+    color: var(--grunge-cream);
+    position: relative;
+  }
+
+  .hero-title .line2 {
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--grunge-rust);
+    display: block;
+  }
+
+  .hero-title .line3 {
+    color: var(--grunge-yellow);
+    display: block;
+    font-size: 0.6em;
+    letter-spacing: 8px;
+    font-family: 'Share Tech Mono', monospace;
+    font-weight: 400;
+    margin-top: 12px;
+  }
+
+  .hero-desc {
+    margin-top: 32px;
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--grunge-static);
+    max-width: 400px;
+    border-left: 3px solid var(--grunge-olive);
+    padding-left: 16px;
+  }
+
+  .hero-cta {
+    margin-top: 40px;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .btn-primary {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 12px 28px;
+    background: var(--grunge-rust);
+    color: var(--grunge-cream);
+    border: none;
+    cursor: pointer;
+    position: relative;
+    clip-path: polygon(4px 0, 100% 0, calc(100% - 4px) 100%, 0 100%);
+    transition: all 0.2s;
+  }
+
+  .btn-primary:hover {
+    background: var(--grunge-yellow);
+    color: var(--grunge-ink);
+    transform: translateY(-2px);
+  }
+
+  .btn-ghost {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 11px 27px;
+    background: transparent;
+    color: var(--grunge-cream);
+    border: 1px solid var(--grunge-ash);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-ghost:hover {
+    border-color: var(--grunge-cream);
+    background: rgba(200,185,154,0.1);
+  }
+
+  .hero-right {
+    position: relative;
+    overflow: hidden;
+    background: var(--grunge-ash);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hero-visual {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .stamp-art {
+    position: relative;
+    width: 320px;
+    height: 320px;
+  }
+
+  .stamp-circle {
+    position: absolute;
+    border-radius: 50%;
+    border: 2px dashed;
+    animation: spin 20s linear infinite;
+  }
+
+  .stamp-circle:nth-child(1) {
+    width: 300px; height: 300px;
+    top: 10px; left: 10px;
+    border-color: rgba(139,58,30,0.4);
+  }
+
+  .stamp-circle:nth-child(2) {
+    width: 230px; height: 230px;
+    top: 45px; left: 45px;
+    border-color: rgba(212,160,23,0.3);
+    animation-direction: reverse;
+    animation-duration: 14s;
+  }
+
+  .stamp-center {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 2;
+  }
+
+  .stamp-center-text {
+    font-family: 'Black Ops One', sans-serif;
+    font-size: 11px;
+    letter-spacing: 8px;
+    color: var(--grunge-rust);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .stamp-year {
+    font-family: 'Anton', sans-serif;
+    font-size: 72px;
+    color: var(--grunge-cream);
+    display: block;
+    line-height: 1;
+    opacity: 0.15;
+  }
+
+  .stamp-sub {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    color: var(--grunge-static);
+    letter-spacing: 3px;
+    display: block;
+    margin-top: 4px;
+  }
+
+  /* decorative lines on right panel */
+  .hero-right-info {
+    padding: 20px;
+    border-top: 1px solid var(--grunge-ash);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--grunge-ash);
+  }
+
+  .hero-stat {
+    background: var(--grunge-bg);
+    padding: 16px;
+    text-align: center;
+  }
+
+  .hero-stat-num {
+    font-family: 'Anton', sans-serif;
+    font-size: 28px;
+    color: var(--grunge-yellow);
+    display: block;
+    line-height: 1;
+  }
+
+  .hero-stat-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    color: var(--grunge-static);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    display: block;
+    margin-top: 4px;
+  }
+
+  /* scrolling ticker */
+  .ticker-wrap {
+    background: var(--grunge-rust);
+    padding: 8px 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .ticker-inner {
+    display: inline-block;
+    animation: ticker 28s linear infinite;
+  }
+
+  .ticker-item {
+    display: inline-block;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--grunge-cream);
+    text-transform: uppercase;
+    padding: 0 32px;
+  }
+
+  .ticker-sep {
+    color: var(--grunge-yellow);
+    padding: 0 8px;
+  }
+
+  @keyframes ticker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  /* ============ ABOUT SECTION ============ */
+  #about {
+    background: var(--grunge-bg);
+  }
+
+  .about-header {
+    padding: 60px 50px 40px;
+    border-bottom: 1px solid var(--grunge-ash);
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+  }
+
+  .section-num {
+    font-family: 'Anton', sans-serif;
+    font-size: 80px;
+    color: rgba(139,58,30,0.15);
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .section-title {
+    font-family: 'Anton', sans-serif;
+    font-size: 52px;
+    text-transform: uppercase;
+    color: var(--grunge-cream);
+    line-height: 0.9;
+  }
+
+  .section-title span {
+    display: block;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--grunge-olive);
+    font-size: 0.7em;
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    min-height: 70vh;
+  }
+
+  .about-left {
+    padding: 50px;
+    border-right: 1px solid var(--grunge-ash);
+  }
+
+  .about-intro {
+    font-size: 22px;
+    line-height: 1.5;
+    color: var(--grunge-cream);
+    font-family: 'Courier Prime', monospace;
+    font-weight: 700;
+    margin-bottom: 32px;
+    position: relative;
+  }
+
+  .about-intro::before {
+    content: '"';
+    font-family: 'Anton', sans-serif;
+    font-size: 80px;
+    color: var(--grunge-rust);
+    position: absolute;
+    top: -20px; left: -10px;
+    opacity: 0.3;
+    line-height: 1;
+  }
+
+  .about-body {
+    font-size: 13px;
+    line-height: 1.9;
+    color: var(--grunge-static);
+    margin-bottom: 20px;
+  }
+
+  .about-body strong {
+    color: var(--grunge-cream);
+    font-weight: 700;
+  }
+
+  .about-right {
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .trait-card {
+    border: 1px solid var(--grunge-ash);
+    padding: 20px;
+    position: relative;
+    transition: all 0.2s;
+    cursor: default;
+    background: rgba(26,22,18,0.8);
+  }
+
+  .trait-card:hover {
+    border-color: var(--grunge-rust);
+    transform: translateX(4px);
+    background: rgba(139,58,30,0.08);
+  }
+
+  .trait-card::before {
+    content: attr(data-num);
+    position: absolute;
+    top: -12px; left: 16px;
+    background: var(--grunge-rust);
+    color: var(--grunge-cream);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    padding: 2px 8px;
+    letter-spacing: 2px;
+  }
+
+  .trait-title {
+    font-family: 'Black Ops One', sans-serif;
+    font-size: 14px;
+    color: var(--grunge-yellow);
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+
+  .trait-body {
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--grunge-static);
+  }
+
+  /* ============ GALLERY ============ */
+  #gallery {
+    background: var(--grunge-bg);
+    padding-bottom: 80px;
+  }
+
+  .gallery-header {
+    padding: 60px 50px 40px;
+    border-bottom: 1px solid var(--grunge-ash);
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+  }
+
+  .gallery-filter {
+    padding: 20px 50px;
+    display: flex;
+    gap: 8px;
+    border-bottom: 1px solid var(--grunge-ash);
+  }
+
+  .filter-btn {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    background: transparent;
+    color: var(--grunge-static);
+    border: 1px solid var(--grunge-ash);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .filter-btn.active, .filter-btn:hover {
+    background: var(--grunge-rust);
+    color: var(--grunge-cream);
+    border-color: var(--grunge-rust);
+  }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--grunge-ash);
+    padding: 1px;
+    margin: 30px 50px;
+  }
+
+  .gallery-item {
+    background: var(--grunge-bg);
+    aspect-ratio: 1;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .gallery-item:hover .gallery-overlay {
+    opacity: 1;
+  }
+
+  .gallery-item:hover .gallery-art {
+    transform: scale(1.05);
+  }
+
+  .gallery-art {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.4s;
+    position: relative;
+  }
+
+  /* individual art pieces */
+  .art1 { background: #1e1a15; }
+  .art2 { background: #12100e; }
+  .art3 { background: #191712; }
+  .art4 { background: #161310; }
+  .art5 { background: #1b1714; }
+  .art6 { background: #141210; }
+
+  .art-svg {
+    width: 80%;
+    height: 80%;
+  }
+
+  .gallery-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(139,58,30,0.85);
+    opacity: 0;
+    transition: opacity 0.3s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .overlay-title {
+    font-family: 'Black Ops One', sans-serif;
+    font-size: 14px;
+    color: var(--grunge-cream);
+    text-align: center;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 0 16px;
+  }
+
+  .overlay-tag {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: var(--grunge-yellow);
+    text-transform: uppercase;
+  }
+
+  /* ============ ELEMENTS ============ */
+  #elements {
+    background: var(--grunge-bg);
+    padding-bottom: 80px;
+  }
+
+  .elements-header {
+    padding: 60px 50px 40px;
+    border-bottom: 1px solid var(--grunge-ash);
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+  }
+
+  .elements-layout {
+    padding: 40px 50px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 24px;
+  }
+
+  .element-block {
+    border: 1px solid var(--grunge-ash);
+    padding: 28px;
+    position: relative;
+    transition: border-color 0.2s;
+  }
+
+  .element-block:hover {
+    border-color: var(--grunge-static);
+  }
+
+  .element-label {
+    position: absolute;
+    top: -10px; left: 20px;
+    background: var(--grunge-bg);
+    padding: 0 8px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: var(--grunge-rust);
+    text-transform: uppercase;
+  }
+
+  .color-swatch {
+    width: 100%;
+    height: 60px;
+    margin-bottom: 10px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .swatch-hex {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    mix-blend-mode: difference;
+    color: white;
+  }
+
+  .typo-display {
+    font-family: 'Anton', sans-serif;
+    font-size: 36px;
+    text-transform: uppercase;
+    color: var(--grunge-cream);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .typo-mono {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px;
+    color: var(--grunge-yellow);
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+  }
+
+  .typo-body {
+    font-family: 'Courier Prime', monospace;
+    font-size: 12px;
+    color: var(--grunge-static);
+    line-height: 1.7;
+  }
+
+  .texture-demo {
+    width: 100%;
+    height: 120px;
+    margin-bottom: 10px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .texture-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--grunge-static);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  /* ============ INTERACTIVE DEMO ============ */
+  .dopamine-bar {
+    background: var(--grunge-ash);
+    padding: 40px 50px;
+    border-top: 3px solid var(--grunge-rust);
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .dopamine-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--grunge-static);
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+
+  .dopamine-btn {
+    font-family: 'Black Ops One', monospace;
+    font-size: 12px;
+    letter-spacing: 2px;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.15s;
+    clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+  }
+
+  .db1 { background: var(--grunge-rust); color: var(--grunge-cream); }
+  .db2 { background: var(--grunge-olive); color: var(--grunge-cream); }
+  .db3 { background: var(--grunge-yellow); color: var(--grunge-ink); }
+  .db4 { background: var(--grunge-cream); color: var(--grunge-ink); }
+
+  .dopamine-btn:hover {
+    transform: scale(1.05) translateY(-2px);
+    filter: brightness(1.2);
+  }
+
+  .dopamine-btn:active {
+    transform: scale(0.97) translateY(1px);
+  }
+
+  /* ============ MANIFESTO ============ */
+  .manifesto-strip {
+    background: var(--grunge-rust);
+    padding: 60px 50px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .manifesto-strip::before {
+    content: 'CORPORATE GRUNGE CORPORATE GRUNGE CORPORATE GRUNGE ';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    font-family: 'Anton', sans-serif;
+    font-size: 120px;
+    color: rgba(0,0,0,0.15);
+    white-space: nowrap;
+    overflow: hidden;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .manifesto-text {
+    position: relative;
+    z-index: 1;
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(28px, 4vw, 48px);
+    color: var(--grunge-cream);
+    text-transform: uppercase;
+    line-height: 1.1;
+    max-width: 700px;
+  }
+
+  .manifesto-text em {
+    font-style: normal;
+    color: var(--grunge-yellow);
+  }
+
+  /* ============ TOAST ============ */
+  .toast {
+    position: fixed;
+    bottom: 24px; right: 24px;
+    background: var(--grunge-ash);
+    border: 1px solid var(--grunge-rust);
+    border-left: 4px solid var(--grunge-rust);
+    padding: 12px 20px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: var(--grunge-cream);
+    z-index: 9000;
+    transform: translateX(120%);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    max-width: 280px;
+  }
+
+  .toast.show {
+    transform: translateX(0);
+  }
+
+  /* ============ PROGRESS INDICATOR ============ */
+  .progress-bar {
+    position: fixed;
+    top: 52px; left: 0;
+    height: 2px;
+    background: var(--grunge-yellow);
+    z-index: 99;
+    transition: width 0.1s;
+    width: 0%;
+  }
+
+  /* GLITCH EFFECT */
+  @keyframes glitch1 {
+    0%, 90%, 100% { clip-path: none; transform: none; }
+    92% { clip-path: inset(20% 0 60% 0); transform: translateX(-4px); }
+    94% { clip-path: inset(60% 0 10% 0); transform: translateX(4px); }
+    96% { clip-path: none; }
+  }
+
+  .glitch-text {
+    position: relative;
+    display: inline-block;
+  }
+
+  .glitch-text::before, .glitch-text::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+  }
+
+  .glitch-text::before {
+    color: var(--grunge-rust);
+    animation: glitch1 6s infinite;
+    clip-path: inset(0 0 50% 0);
+    left: -2px;
+  }
+
+  .glitch-text::after {
+    color: var(--grunge-olive);
+    animation: glitch1 6s 0.5s infinite reverse;
+    clip-path: inset(50% 0 0 0);
+    left: 2px;
+  }
+
+  /* cursor trail */
+  .cursor-trail {
+    position: fixed;
+    width: 6px; height: 6px;
+    background: var(--grunge-rust);
+    border-radius: 0;
+    pointer-events: none;
+    z-index: 9998;
+    mix-blend-mode: screen;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+<div class="toast" id="toast"></div>
+
+<!-- CURSOR TRAILS -->
+<div class="cursor-trail" id="t1"></div>
+<div class="cursor-trail" id="t2"></div>
+<div class="cursor-trail" id="t3"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">AESTHETICA</div>
+    <ul class="nav-links">
+      <li><a href="#" class="active" data-section="hero">Home</a></li>
+      <li><a href="#" data-section="about">About</a></li>
+      <li><a href="#" data-section="gallery">Gallery</a></li>
+      <li><a href="#" data-section="elements">Elements</a></li>
+    </ul>
+    <div class="nav-tag">EST. 1993 // VOL.01</div>
+  </div>
+</nav>
+
+<!-- TICKER -->
+<div class="ticker-wrap" style="position:fixed;top:52px;left:0;right:0;z-index:98;">
+  <div class="ticker-inner" id="ticker">
+    <span class="ticker-item">Corporate Grunge</span><span class="ticker-sep">///</span>
+    <span class="ticker-item">1993–2005</span><span class="ticker-sep">///</span>
+    <span class="ticker-item">Distressed Aesthetics</span><span class="ticker-sep">///</span>
+    <span class="ticker-item">Olive · Rust · Charcoal</span><span class="ticker-sep">///</span>
+    <span class="ticker-item">Anti-Establishment</span><span class="ticker-sep">///</span>
+    <span class="ticker-item">Typewriter Fonts</span><span class="ticker-sep">///</span>
+    <span class="ticker-item">Grunge Typography</span><span class="ticker-sep">///</span>
+    <span class="ticker-item">Zine Culture</span><span class="ticker-sep">///</span>
+    <!-- duplicate for seamless loop -->
+    <span class="ticker-item">Corporate Grunge</span><span class="ticker-sep">///</span>
+    <span class="ticker-item">1993–2005</span><span class="ticker-sep">///</span>
+    <span class="ticker-item">Distressed Aesthetics</span><span class="ticker-sep">///</span>
+    <span class="ticker-item">Olive · Rust · Charcoal</span><span class="ticker-sep">///</span>
+    <span class="ticker-item">Anti-Establishment</span><span class="ticker-sep">///</span>
+    <span class="ticker-item">Typewriter Fonts</span><span class="ticker-sep">///</span>
+    <span class="ticker-item">Grunge Typography</span><span class="ticker-sep">///</span>
+    <span class="ticker-item">Zine Culture</span><span class="ticker-sep">///</span>
+  </div>
+</div>
+
+<!-- SECTION: HERO -->
+<section id="hero" class="active" style="padding-top:88px;">
+  <div class="hero-grid">
+    <div class="hero-left">
+      <div class="hero-label">Aesthetic Study #01</div>
+      <h1 class="hero-title">
+        <span>CORPORATE</span>
+        <span class="line2">GRUNGE</span>
+        <span class="line3 glitch-text" data-text="// 1993 — 2005 //">// 1993 — 2005 //</span>
+      </h1>
+      <p class="hero-desc">
+        When the <strong>rebel aesthetic</strong> got absorbed by the machine. Advertisers weaponised underground gig-poster culture to sell products to a disillusioned Generation X — creating a paradox that defined a decade's visual language.
+      </p>
+      <div class="hero-cta">
+        <button class="btn-primary" onclick="showToast('EXPLORING AESTHETIC...')">Explore Now</button>
+        <button class="btn-ghost" onclick="switchSection('about')">Read Manifesto →</button>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-visual">
+        <div class="stamp-art">
+          <div class="stamp-circle"></div>
+          <div class="stamp-circle"></div>
+          <!-- central radial art -->
+          <svg viewBox="0 0 320 320" style="position:absolute;inset:0;width:100%;height:100%;" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <filter id="rough">
+                <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="3" result="noise"/>
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G"/>
+              </filter>
+            </defs>
+            <!-- background shapes -->
+            <polygon points="160,40 280,120 280,200 160,280 40,200 40,120" fill="none" stroke="#3d3830" stroke-width="1"/>
+            <polygon points="160,60 260,128 260,192 160,260 60,192 60,128" fill="none" stroke="#5a5e2e" stroke-width="0.5" opacity="0.5"/>
+            <!-- cross hairs -->
+            <line x1="160" y1="20" x2="160" y2="300" stroke="#3d3830" stroke-width="0.5"/>
+            <line x1="20" y1="160" x2="300" y2="160" stroke="#3d3830" stroke-width="0.5"/>
+            <!-- circle rings -->
+            <circle cx="160" cy="160" r="80" fill="none" stroke="#8b3a1e" stroke-width="0.75" opacity="0.5"/>
+            <circle cx="160" cy="160" r="55" fill="none" stroke="#5a5e2e" stroke-width="0.5" opacity="0.6"/>
+            <circle cx="160" cy="160" r="30" fill="#8b3a1e" opacity="0.2"/>
+            <!-- center mark -->
+            <circle cx="160" cy="160" r="8" fill="#8b3a1e" opacity="0.7"/>
+            <circle cx="160" cy="160" r="3" fill="#d4a017"/>
+            <!-- decorative arcs -->
+            <path d="M 80 160 A 80 80 0 0 1 240 160" fill="none" stroke="#d4a017" stroke-width="0.75" opacity="0.3"/>
+            <!-- text on path -->
+            <path id="topArc" d="M 60 160 A 100 100 0 0 1 260 160" fill="none"/>
+            <text font-family="Share Tech Mono,monospace" font-size="9" fill="#8b3a1e" letter-spacing="4" opacity="0.7">
+              <textPath href="#topArc">CORPORATE GRUNGE • AESTHETICA • VOL.01 •</textPath>
+            </text>
+            <path id="bottomArc" d="M 60 160 A 100 100 0 0 0 260 160" fill="none"/>
+            <text font-family="Share Tech Mono,monospace" font-size="9" fill="#5a5e2e" letter-spacing="4" opacity="0.7">
+              <textPath href="#bottomArc">ANTI-ESTABLISHMENT • ZINE CULTURE • 1993 •</textPath>
+            </text>
+            <!-- tick marks around circle -->
+            <g id="ticks" opacity="0.4">
+              <line x1="160" y1="55" x2="160" y2="65" stroke="#d4a017" stroke-width="1.5" transform="rotate(0,160,160)"/>
+              <line x1="160" y1="55" x2="160" y2="62" stroke="#8b3a1e" stroke-width="0.75" transform="rotate(30,160,160)"/>
+              <line x1="160" y1="55" x2="160" y2="62" stroke="#8b3a1e" stroke-width="0.75" transform="rotate(60,160,160)"/>
+              <line x1="160" y1="55" x2="160" y2="65" stroke="#d4a017" stroke-width="1.5" transform="rotate(90,160,160)"/>
+              <line x1="160" y1="55" x2="160" y2="62" stroke="#8b3a1e" stroke-width="0.75" transform="rotate(120,160,160)"/>
+              <line x1="160" y1="55" x2="160" y2="62" stroke="#8b3a1e" stroke-width="0.75" transform="rotate(150,160,160)"/>
+              <line x1="160" y1="55" x2="160" y2="65" stroke="#d4a017" stroke-width="1.5" transform="rotate(180,160,160)"/>
+              <line x1="160" y1="55" x2="160" y2="62" stroke="#8b3a1e" stroke-width="0.75" transform="rotate(210,160,160)"/>
+              <line x1="160" y1="55" x2="160" y2="62" stroke="#8b3a1e" stroke-width="0.75" transform="rotate(240,160,160)"/>
+              <line x1="160" y1="55" x2="160" y2="65" stroke="#d4a017" stroke-width="1.5" transform="rotate(270,160,160)"/>
+              <line x1="160" y1="55" x2="160" y2="62" stroke="#8b3a1e" stroke-width="0.75" transform="rotate(300,160,160)"/>
+              <line x1="160" y1="55" x2="160" y2="62" stroke="#8b3a1e" stroke-width="0.75" transform="rotate(330,160,160)"/>
+            </g>
+          </svg>
+          <div class="stamp-center">
+            <span class="stamp-center-text">Aesthetic Study</span>
+            <span class="stamp-year">01</span>
+            <span class="stamp-sub">Vol. I — Archive</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-right-info">
+        <div class="hero-stat">
+          <span class="hero-stat-num">12</span>
+          <span class="hero-stat-label">Year Span</span>
+        </div>
+        <div class="hero-stat">
+          <span class="hero-stat-num">∞</span>
+          <span class="hero-stat-label">Influence</span>
+        </div>
+        <div class="hero-stat">
+          <span class="hero-stat-num">01</span>
+          <span class="hero-stat-label">Of Many</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MANIFESTO STRIP -->
+  <div class="manifesto-strip">
+    <div class="manifesto-text">
+      The <em>authentic</em> rebellion<br>became the <em>product</em>.<br>
+      And that was the point.
+    </div>
+  </div>
+</section>
+
+<!-- SECTION: ABOUT -->
+<section id="about" style="padding-top:88px;">
+  <div class="about-header">
+    <div class="section-num">02</div>
+    <h2 class="section-title">What Is<span>Corporate Grunge</span></h2>
+  </div>
+  <div class="about-grid">
+    <div class="about-left">
+      <p class="about-intro">
+        The greatest aesthetic paradox of the twentieth century's final decade.
+      </p>
+      <p class="about-body">
+        <strong>Corporate Grunge</strong> emerged from a cultural collision — the raw, anti-establishment energy of underground grunge music being absorbed, sanitized, and weaponised by the very corporate machine it rebelled against. From roughly <strong>1993 to 2005</strong>, advertisers adopted the visual grammar of zines, gig posters, and underground press to sell products to a generation that had grown distrustful of polished, corporate design.
+      </p>
+      <p class="about-body">
+        The palette shifted from 80s neon excess to <strong>muted earth tones</strong> — olive greens, charcoal grays, rusty browns. Textures became distressed: worn, gritty, aged. Typography went rough — stencil fonts, typewriter text, label-maker lettering, all digitally imitated but carrying that analog imperfection. Layouts broke the grid intentionally. Images were grainy, desaturated, sometimes out of focus.
+      </p>
+      <p class="about-body">
+        Perhaps its most infamous expression: the <strong>"Piracy. It's a Crime."</strong> campaign (2004–2007), with its XBAND Rough typeface declaring "You Wouldn't Steal a Car" — a textbook example of authority borrowing the visual language of rebellion to assert control.
+      </p>
+      <p class="about-body">
+        This is the aesthetic of <strong>controlled chaos</strong>. Of boardrooms that hired art directors who used to make photocopied zines. Of rebellion that got a salary and a health plan.
+      </p>
+    </div>
+    <div class="about-right">
+      <div class="trait-card" data-num="TRAIT.01">
+        <div class="trait-title">Distressed Textures</div>
+        <div class="trait-body">Torn paper edges, grain overlays, stains, and smudges. The deliberate simulation of wear and age on surfaces that were actually brand new.</div>
+      </div>
+      <div class="trait-card" data-num="TRAIT.02">
+        <div class="trait-title">Earthy Muted Palette</div>
+        <div class="trait-body">Olive green, charcoal gray, rusty brown, and dirty cream. A complete inversion of the 80s' neon excess. Colors of industrial decay and flannel shirts.</div>
+      </div>
+      <div class="trait-card" data-num="TRAIT.03">
+        <div class="trait-title">Rough Typography</div>
+        <div class="trait-body">Stencil fonts, typewriter text, label-maker lettering. Digital imitations of analog imperfection — clean layouts purposely made to look broken.</div>
+      </div>
+      <div class="trait-card" data-num="TRAIT.04">
+        <div class="trait-title">Collage & Layering</div>
+        <div class="trait-body">Overlapping images, cut-and-paste compositions, vintage computer graphics mixed with hand-drawn elements. The visual language of zine culture industrialized.</div>
+      </div>
+      <div class="trait-card" data-num="TRAIT.05">
+        <div class="trait-title">Controlled Chaos</div>
+        <div class="trait-body">The layouts appear broken, asymmetric, and raw — but every element is precisely placed. The chaos is a product of the studio, not the street.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dopamine-bar">
+    <span class="dopamine-label">Trigger ↓</span>
+    <button class="dopamine-btn db1" onclick="showToast('DISTRESSED. AUTHENTIC. SOLD.')">DISTRESSED</button>
+    <button class="dopamine-btn db2" onclick="showToast('OLIVE BRANCH OF CORPORATE REBELLION')">EARTHY</button>
+    <button class="dopamine-btn db3" onclick="showToast('TYPE HAMMERED INTO THE PAGE')">TYPEWRITER</button>
+    <button class="dopamine-btn db4" onclick="showToast('THE ZINE BECAME THE AD.')">COLLAGE</button>
+  </div>
+</section>
+
+<!-- SECTION: GALLERY -->
+<section id="gallery" style="padding-top:88px;">
+  <div class="gallery-header">
+    <div class="section-num">03</div>
+    <h2 class="section-title">Visual<span>Archive</span></h2>
+  </div>
+
+  <div class="gallery-filter">
+    <button class="filter-btn active" onclick="filterGallery('all', this)">ALL</button>
+    <button class="filter-btn" onclick="filterGallery('texture', this)">TEXTURE</button>
+    <button class="filter-btn" onclick="filterGallery('type', this)">TYPOGRAPHY</button>
+    <button class="filter-btn" onclick="filterGallery('layout', this)">LAYOUT</button>
+  </div>
+
+  <div class="gallery-grid" id="galleryGrid">
+
+    <!-- ART 1: Distressed poster -->
+    <div class="gallery-item" data-cat="texture" onclick="showToast('DISTRESSED POSTER STUDY')">
+      <div class="gallery-art art1">
+        <svg class="art-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <rect width="200" height="200" fill="#1e1a15"/>
+          <!-- paper texture lines -->
+          <line x1="0" y1="30" x2="200" y2="35" stroke="#2d2820" stroke-width="0.5"/>
+          <line x1="0" y1="60" x2="200" y2="58" stroke="#2d2820" stroke-width="0.5"/>
+          <line x1="0" y1="90" x2="200" y2="92" stroke="#2d2820" stroke-width="0.3"/>
+          <line x1="0" y1="120" x2="200" y2="118" stroke="#2d2820" stroke-width="0.5"/>
+          <line x1="0" y1="150" x2="200" y2="152" stroke="#2d2820" stroke-width="0.3"/>
+          <line x1="0" y1="180" x2="200" y2="178" stroke="#2d2820" stroke-width="0.5"/>
+          <!-- stain blobs -->
+          <ellipse cx="40" cy="70" rx="25" ry="15" fill="#8b3a1e" opacity="0.12"/>
+          <ellipse cx="160" cy="140" rx="20" ry="30" fill="#5a5e2e" opacity="0.1"/>
+          <!-- main shape -->
+          <rect x="30" y="40" width="140" height="120" fill="none" stroke="#8b3a1e" stroke-width="1.5" stroke-dasharray="8,3"/>
+          <rect x="36" y="46" width="128" height="108" fill="none" stroke="#5a5e2e" stroke-width="0.5"/>
+          <!-- text -->
+          <text x="100" y="90" text-anchor="middle" font-family="monospace" font-size="22" font-weight="700" fill="#c8b99a" letter-spacing="4">CORP</text>
+          <text x="100" y="116" text-anchor="middle" font-family="monospace" font-size="22" font-weight="700" fill="none" stroke="#8b3a1e" stroke-width="0.75" letter-spacing="4">GRNG</text>
+          <text x="100" y="136" text-anchor="middle" font-family="monospace" font-size="8" fill="#5a5e2e" letter-spacing="6">MCMXCIII</text>
+        </svg>
+      </div>
+      <div class="gallery-overlay">
+        <div class="overlay-title">Distressed Poster Study</div>
+        <div class="overlay-tag">// TEXTURE //</div>
+      </div>
+    </div>
+
+    <!-- ART 2: Typewriter grid -->
+    <div class="gallery-item" data-cat="type" onclick="showToast('TYPEWRITER GRID STUDY')">
+      <div class="gallery-art art2">
+        <svg class="art-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <rect width="200" height="200" fill="#12100e"/>
+          <!-- grid -->
+          <g stroke="#2a2520" stroke-width="0.4" opacity="0.8">
+            <line x1="0" y1="25" x2="200" y2="25"/><line x1="0" y1="50" x2="200" y2="50"/>
+            <line x1="0" y1="75" x2="200" y2="75"/><line x1="0" y1="100" x2="200" y2="100"/>
+            <line x1="0" y1="125" x2="200" y2="125"/><line x1="0" y1="150" x2="200" y2="150"/>
+            <line x1="0" y1="175" x2="200" y2="175"/>
+            <line x1="25" y1="0" x2="25" y2="200"/><line x1="50" y1="0" x2="50" y2="200"/>
+            <line x1="75" y1="0" x2="75" y2="200"/><line x1="100" y1="0" x2="100" y2="200"/>
+            <line x1="125" y1="0" x2="125" y2="200"/><line x1="150" y1="0" x2="150" y2="200"/>
+            <line x1="175" y1="0" x2="175" y2="200"/>
+          </g>
+          <!-- typed characters -->
+          <text font-family="Courier New,monospace" font-size="8" fill="#8b3a1e" opacity="0.7">
+            <tspan x="12" y="22">YOU WOULDN'T STEAL</tspan>
+            <tspan x="12" y="47">A CAR. YOU WOULDN'T</tspan>
+            <tspan x="12" y="72">STEAL A HANDBAG.</tspan>
+            <tspan x="12" y="97" fill="#d4a017" opacity="0.9">PIRACY IS A CRIME.</tspan>
+            <tspan x="12" y="122" fill="#5a5e2e">DOWNLOADING FILM</tspan>
+            <tspan x="12" y="147">IS STEALING.</tspan>
+          </text>
+          <!-- overstrike -->
+          <line x1="10" y1="97" x2="190" y2="97" stroke="#8b3a1e" stroke-width="0.5" opacity="0.3"/>
+          <!-- big stamped text -->
+          <text x="100" y="175" text-anchor="middle" font-family="monospace" font-size="18" font-weight="700" fill="#c8b99a" opacity="0.6" letter-spacing="6">CRIME</text>
+        </svg>
+      </div>
+      <div class="gallery-overlay">
+        <div class="overlay-title">Typewriter Grid Study</div>
+        <div class="overlay-tag">// TYPOGRAPHY //</div>
+      </div>
+    </div>
+
+    <!-- ART 3: Stencil stamp -->
+    <div class="gallery-item" data-cat="layout" onclick="showToast('STENCIL STAMP STUDY')">
+      <div class="gallery-art art3">
+        <svg class="art-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <rect width="200" height="200" fill="#191712"/>
+          <!-- diagonal stripes bg -->
+          <g opacity="0.06">
+            <line x1="-20" y1="0" x2="220" y2="240" stroke="#c8b99a" stroke-width="8"/>
+            <line x1="0" y1="-20" x2="240" y2="220" stroke="#c8b99a" stroke-width="8"/>
+            <line x1="-60" y1="0" x2="180" y2="240" stroke="#c8b99a" stroke-width="8"/>
+            <line x1="-40" y1="-20" x2="200" y2="220" stroke="#c8b99a" stroke-width="8"/>
+            <line x1="40" y1="-20" x2="280" y2="220" stroke="#c8b99a" stroke-width="8"/>
+          </g>
+          <!-- stencil box -->
+          <rect x="20" y="20" width="160" height="160" fill="#8b3a1e" opacity="0.15"/>
+          <rect x="20" y="20" width="160" height="160" fill="none" stroke="#8b3a1e" stroke-width="3"/>
+          <!-- stencil cutout sim -->
+          <text x="100" y="85" text-anchor="middle" font-family="monospace" font-size="36" font-weight="900" fill="#8b3a1e" opacity="0.9">CORP</text>
+          <text x="100" y="130" text-anchor="middle" font-family="monospace" font-size="13" fill="#d4a017" letter-spacing="8" opacity="0.8">APPROVED</text>
+          <text x="100" y="155" text-anchor="middle" font-family="monospace" font-size="8" fill="#c8b99a" letter-spacing="4" opacity="0.5">REF: CG-93-0001</text>
+          <!-- corner marks -->
+          <path d="M20,20 L30,20 M20,20 L20,30" stroke="#d4a017" stroke-width="1.5" fill="none"/>
+          <path d="M180,20 L170,20 M180,20 L180,30" stroke="#d4a017" stroke-width="1.5" fill="none"/>
+          <path d="M20,180 L30,180 M20,180 L20,170" stroke="#d4a017" stroke-width="1.5" fill="none"/>
+          <path d="M180,180 L170,180 M180,180 L180,170" stroke="#d4a017" stroke-width="1.5" fill="none"/>
+        </svg>
+      </div>
+      <div class="gallery-overlay">
+        <div class="overlay-title">Stencil Stamp Study</div>
+        <div class="overlay-tag">// LAYOUT //</div>
+      </div>
+    </div>
+
+    <!-- ART 4: Zine collage -->
+    <div class="gallery-item" data-cat="layout" onclick="showToast('ZINE COLLAGE STUDY')">
+      <div class="gallery-art art4">
+        <svg class="art-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <rect width="200" height="200" fill="#161310"/>
+          <!-- torn paper pieces -->
+          <polygon points="0,0 110,0 100,80 0,90" fill="#c8b99a" opacity="0.12"/>
+          <polygon points="200,200 80,200 90,110 200,100" fill="#5a5e2e" opacity="0.15"/>
+          <!-- tape pieces -->
+          <rect x="60" y="30" width="80" height="12" fill="#d4a017" opacity="0.25" transform="rotate(-5,100,36)"/>
+          <rect x="50" y="130" width="100" height="10" fill="#8b3a1e" opacity="0.3" transform="rotate(3,100,135)"/>
+          <!-- cut text blocks -->
+          <rect x="15" y="55" width="85" height="50" fill="#2d2820"/>
+          <text x="22" y="72" font-family="monospace" font-size="7" fill="#c8b99a" opacity="0.8">THE REBELLION</text>
+          <text x="22" y="84" font-family="monospace" font-size="7" fill="#8b3a1e">WAS ALWAYS A</text>
+          <text x="22" y="96" font-family="monospace" font-size="7" fill="#c8b99a" opacity="0.8">PRODUCT.</text>
+          <!-- photo block -->
+          <rect x="110" y="40" width="75" height="75" fill="#1e1a15" stroke="#3d3830" stroke-width="1"/>
+          <circle cx="147" cy="77" r="20" fill="#3d3830"/>
+          <text x="147" y="81" text-anchor="middle" font-family="monospace" font-size="8" fill="#d4a017">PHOTO</text>
+          <!-- bottom text -->
+          <text x="100" y="175" text-anchor="middle" font-family="monospace" font-size="16" font-weight="700" fill="#c8b99a" opacity="0.7" letter-spacing="3">ZINE #004</text>
+        </svg>
+      </div>
+      <div class="gallery-overlay">
+        <div class="overlay-title">Zine Collage Study</div>
+        <div class="overlay-tag">// LAYOUT //</div>
+      </div>
+    </div>
+
+    <!-- ART 5: Grunge texture close-up -->
+    <div class="gallery-item" data-cat="texture" onclick="showToast('GRAIN OVERLAY STUDY')">
+      <div class="gallery-art art5">
+        <svg class="art-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="grungeFilter">
+              <feTurbulence type="turbulence" baseFrequency="0.65" numOctaves="3" result="noiseOut"/>
+              <feColorMatrix type="saturate" values="0" in="noiseOut" result="grayNoise"/>
+              <feBlend in="SourceGraphic" in2="grayNoise" mode="multiply"/>
+            </filter>
+          </defs>
+          <rect width="200" height="200" fill="#1b1714"/>
+          <!-- eroded shapes -->
+          <rect x="0" y="0" width="200" height="200" fill="#8b3a1e" opacity="0.07" filter="url(#grungeFilter)"/>
+          <!-- layered bands -->
+          <rect x="0" y="0" width="200" height="40" fill="#5a5e2e" opacity="0.2"/>
+          <rect x="0" y="160" width="200" height="40" fill="#5a5e2e" opacity="0.15"/>
+          <!-- large degraded text -->
+          <text x="100" y="120" text-anchor="middle" font-family="monospace" font-size="54" font-weight="900" fill="#c8b99a" opacity="0.08" letter-spacing="-2">GRUNGE</text>
+          <!-- scan lines -->
+          <g opacity="0.06">
+            <line x1="0" y1="10" x2="200" y2="10" stroke="#c8b99a"/><line x1="0" y1="14" x2="200" y2="14" stroke="#c8b99a"/>
+            <line x1="0" y1="18" x2="200" y2="18" stroke="#c8b99a"/><line x1="0" y1="22" x2="200" y2="22" stroke="#c8b99a"/>
+            <line x1="0" y1="26" x2="200" y2="26" stroke="#c8b99a"/><line x1="0" y1="30" x2="200" y2="30" stroke="#c8b99a"/>
+          </g>
+          <!-- center detail -->
+          <circle cx="100" cy="100" r="40" fill="none" stroke="#d4a017" stroke-width="0.75" opacity="0.4"/>
+          <circle cx="100" cy="100" r="6" fill="#d4a017" opacity="0.6"/>
+          <line x1="60" y1="100" x2="94" y2="100" stroke="#d4a017" stroke-width="0.5" opacity="0.4"/>
+          <line x1="106" y1="100" x2="140" y2="100" stroke="#d4a017" stroke-width="0.5" opacity="0.4"/>
+          <line x1="100" y1="60" x2="100" y2="94" stroke="#d4a017" stroke-width="0.5" opacity="0.4"/>
+          <line x1="100" y1="106" x2="100" y2="140" stroke="#d4a017" stroke-width="0.5" opacity="0.4"/>
+          <text x="100" y="165" text-anchor="middle" font-family="monospace" font-size="8" fill="#8b3a1e" letter-spacing="3" opacity="0.7">GRAIN OVERLAY</text>
+        </svg>
+      </div>
+      <div class="gallery-overlay">
+        <div class="overlay-title">Grain Overlay Study</div>
+        <div class="overlay-tag">// TEXTURE //</div>
+      </div>
+    </div>
+
+    <!-- ART 6: Anti-design type -->
+    <div class="gallery-item" data-cat="type" onclick="showToast('ANTI-DESIGN TYPE STUDY')">
+      <div class="gallery-art art6">
+        <svg class="art-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <rect width="200" height="200" fill="#141210"/>
+          <!-- chaotic type layout - the grunge way -->
+          <text x="5" y="50" font-family="monospace" font-size="40" font-weight="900" fill="#8b3a1e" opacity="0.9" transform="rotate(-8,5,50)">ANTI</text>
+          <text x="60" y="100" font-family="monospace" font-size="28" font-weight="900" fill="#c8b99a" opacity="0.4">DESIGN</text>
+          <text x="10" y="140" font-family="monospace" font-size="16" fill="#d4a017" opacity="0.7" letter-spacing="8" transform="rotate(5,10,140)">IS DEAD</text>
+          <text x="90" y="165" font-family="monospace" font-size="9" fill="#5a5e2e" letter-spacing="3" opacity="0.8">LONG LIVE ANTI-DESIGN</text>
+          <!-- overlapping elements -->
+          <rect x="0" y="75" width="190" height="2" fill="#8b3a1e" opacity="0.4"/>
+          <text x="195" y="78" text-anchor="end" font-family="monospace" font-size="7" fill="#3d3830" letter-spacing="1">VOL.01</text>
+          <!-- random marks -->
+          <circle cx="175" cy="30" r="8" fill="none" stroke="#d4a017" stroke-width="1" opacity="0.5"/>
+          <circle cx="175" cy="30" r="3" fill="#d4a017" opacity="0.5"/>
+          <line x1="30" y1="155" x2="180" y2="170" stroke="#3d3830" stroke-width="1" opacity="0.6"/>
+        </svg>
+      </div>
+      <div class="gallery-overlay">
+        <div class="overlay-title">Anti-Design Type Study</div>
+        <div class="overlay-tag">// TYPOGRAPHY //</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SECTION: ELEMENTS -->
+<section id="elements" style="padding-top:88px;">
+  <div class="elements-header">
+    <div class="section-num">04</div>
+    <h2 class="section-title">Design<span>Elements</span></h2>
+  </div>
+
+  <div class="elements-layout">
+
+    <!-- Color palette -->
+    <div class="element-block">
+      <div class="element-label">COLOR PALETTE</div>
+      <div class="color-swatch" style="background:#8b3a1e;">
+        <span class="swatch-hex">#8B3A1E — Rust</span>
+      </div>
+      <div class="color-swatch" style="background:#5a5e2e;">
+        <span class="swatch-hex">#5A5E2E — Olive</span>
+      </div>
+      <div class="color-swatch" style="background:#3d3830;">
+        <span class="swatch-hex">#3D3830 — Ash</span>
+      </div>
+      <div class="color-swatch" style="background:#d4a017;">
+        <span class="swatch-hex" style="color:#1a1612;">#D4A017 — Gold</span>
+      </div>
+      <div class="color-swatch" style="background:#c8b99a;">
+        <span class="swatch-hex" style="color:#1a1612;">#C8B99A — Cream</span>
+      </div>
+    </div>
+
+    <!-- Typography -->
+    <div class="element-block">
+      <div class="element-label">TYPOGRAPHY</div>
+      <div class="typo-display">ANTON</div>
+      <div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:#8b3a1e;letter-spacing:2px;margin-bottom:12px;">DISPLAY / HEADLINES</div>
+      <div class="typo-mono">SHARE TECH MONO</div>
+      <div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:#5a5e2e;letter-spacing:2px;margin-bottom:12px;">LABELS / NAVIGATION / UI</div>
+      <div style="font-family:'Black Ops One',sans-serif;font-size:18px;color:#d4a017;margin-bottom:4px;">Black Ops One</div>
+      <div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:#5a5e2e;letter-spacing:2px;margin-bottom:12px;">STAMPS / BADGES</div>
+      <div class="typo-body">Courier Prime for body copy. The typewriter aesthetic of editorial grunge — imperfect, mechanical, authentic.</div>
+    </div>
+
+    <!-- Textures & Effects -->
+    <div class="element-block">
+      <div class="element-label">TEXTURES</div>
+      <!-- Hatching texture sim -->
+      <div class="texture-demo">
+        <svg width="100%" height="100%" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+          <rect width="200" height="100" fill="#1e1a15"/>
+          <g stroke="#8b3a1e" stroke-width="0.5" opacity="0.4">
+            <line x1="0" y1="0" x2="100" y2="100"/><line x1="20" y1="0" x2="120" y2="100"/>
+            <line x1="40" y1="0" x2="140" y2="100"/><line x1="60" y1="0" x2="160" y2="100"/>
+            <line x1="80" y1="0" x2="180" y2="100"/><line x1="100" y1="0" x2="200" y2="100"/>
+            <line x1="120" y1="0" x2="220" y2="100"/><line x1="140" y1="0" x2="240" y2="100"/>
+            <line x1="160" y1="0" x2="260" y2="100"/><line x1="180" y1="0" x2="280" y2="100"/>
+          </g>
+          <text x="100" y="58" text-anchor="middle" font-family="monospace" font-size="12" fill="#c8b99a" opacity="0.8" letter-spacing="4">HATCHING</text>
+        </svg>
+      </div>
+      <div class="texture-label">Diagonal Hatch — Industrial</div>
+      <!-- scanline sim -->
+      <div class="texture-demo">
+        <svg width="100%" height="100%" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+          <rect width="200" height="100" fill="#5a5e2e" opacity="0.3"/>
+          <rect width="200" height="100" fill="none" stroke="#5a5e2e" stroke-width="1"/>
+          <g stroke="#c8b99a" stroke-width="0.5" opacity="0.07">
+            <line x1="0" y1="4" x2="200" y2="4"/><line x1="0" y1="8" x2="200" y2="8"/>
+            <line x1="0" y1="12" x2="200" y2="12"/><line x1="0" y1="16" x2="200" y2="16"/>
+            <line x1="0" y1="20" x2="200" y2="20"/><line x1="0" y1="24" x2="200" y2="24"/>
+            <line x1="0" y1="28" x2="200" y2="28"/><line x1="0" y1="32" x2="200" y2="32"/>
+            <line x1="0" y1="36" x2="200" y2="36"/><line x1="0" y1="40" x2="200" y2="40"/>
+            <line x1="0" y1="44" x2="200" y2="44"/><line x1="0" y1="48" x2="200" y2="48"/>
+            <line x1="0" y1="52" x2="200" y2="52"/><line x1="0" y1="56" x2="200" y2="56"/>
+            <line x1="0" y1="60" x2="200" y2="60"/><line x1="0" y1="64" x2="200" y2="64"/>
+            <line x1="0" y1="68" x2="200" y2="68"/><line x1="0" y1="72" x2="200" y2="72"/>
+            <line x1="0" y1="76" x2="200" y2="76"/><line x1="0" y1="80" x2="200" y2="80"/>
+            <line x1="0" y1="84" x2="200" y2="84"/><line x1="0" y1="88" x2="200" y2="88"/>
+            <line x1="0" y1="92" x2="200" y2="92"/><line x1="0" y1="96" x2="200" y2="96"/>
+          </g>
+          <text x="100" y="58" text-anchor="middle" font-family="monospace" font-size="12" fill="#c8b99a" opacity="0.9" letter-spacing="4">SCANLINES</text>
+        </svg>
+      </div>
+      <div class="texture-label">Scan Lines — Video Static</div>
+    </div>
+
+    <!-- Key motifs -->
+    <div class="element-block" style="grid-column: span 2;">
+      <div class="element-label">KEY MOTIFS</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:8px;">
+        <div style="text-align:center;">
+          <svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+            <rect x="5" y="5" width="50" height="50" fill="none" stroke="#8b3a1e" stroke-width="2" stroke-dasharray="10,4"/>
+            <rect x="12" y="12" width="36" height="36" fill="none" stroke="#3d3830" stroke-width="0.5"/>
+            <text x="30" y="34" text-anchor="middle" font-family="monospace" font-size="10" fill="#d4a017">SEAL</text>
+          </svg>
+          <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:#5a5e2e;letter-spacing:2px;margin-top:6px;text-transform:uppercase;">Official Seal</div>
+        </div>
+        <div style="text-align:center;">
+          <svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+            <polygon points="30,5 55,55 5,55" fill="none" stroke="#5a5e2e" stroke-width="1.5"/>
+            <line x1="30" y1="20" x2="30" y2="40" stroke="#d4a017" stroke-width="1"/>
+            <circle cx="30" cy="44" r="2" fill="#d4a017"/>
+          </svg>
+          <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:#5a5e2e;letter-spacing:2px;margin-top:6px;text-transform:uppercase;">Warning Mark</div>
+        </div>
+        <div style="text-align:center;">
+          <svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="30" cy="30" r="24" fill="none" stroke="#8b3a1e" stroke-width="1.5"/>
+            <circle cx="30" cy="30" r="16" fill="none" stroke="#3d3830" stroke-width="0.5" stroke-dasharray="4,2"/>
+            <circle cx="30" cy="30" r="4" fill="#8b3a1e" opacity="0.7"/>
+            <line x1="6" y1="30" x2="26" y2="30" stroke="#3d3830" stroke-width="0.5"/>
+            <line x1="34" y1="30" x2="54" y2="30" stroke="#3d3830" stroke-width="0.5"/>
+          </svg>
+          <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:#5a5e2e;letter-spacing:2px;margin-top:6px;text-transform:uppercase;">Target</div>
+        </div>
+        <div style="text-align:center;">
+          <svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+            <rect x="5" y="22" width="50" height="16" fill="#8b3a1e" opacity="0.3"/>
+            <rect x="5" y="22" width="50" height="16" fill="none" stroke="#8b3a1e" stroke-width="1"/>
+            <text x="30" y="34" text-anchor="middle" font-family="monospace" font-size="8" font-weight="700" fill="#c8b99a" letter-spacing="2">APPROVED</text>
+            <line x1="0" y1="20" x2="60" y2="22" stroke="#3d3830" stroke-width="0.5"/>
+            <line x1="0" y1="40" x2="60" y2="38" stroke="#3d3830" stroke-width="0.5"/>
+          </svg>
+          <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:#5a5e2e;letter-spacing:2px;margin-top:6px;text-transform:uppercase;">Rubber Stamp</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- interactive sound wave -->
+    <div class="element-block">
+      <div class="element-label">LIVE WAVE</div>
+      <canvas id="waveCanvas" width="260" height="80" style="width:100%;display:block;margin-top:8px;"></canvas>
+      <div style="margin-top:12px;display:flex;gap:8px;">
+        <button class="dopamine-btn db1" style="font-size:9px;padding:6px 12px;" onclick="setWaveMode('rust')">RUST</button>
+        <button class="dopamine-btn db2" style="font-size:9px;padding:6px 12px;" onclick="setWaveMode('olive')">OLIVE</button>
+        <button class="dopamine-btn db3" style="font-size:9px;padding:6px 12px;clip-path:none;" onclick="setWaveMode('gold')">GOLD</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  // ===== NAVIGATION =====
+  function switchSection(id) {
+    document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    document.querySelectorAll('.nav-links a').forEach(a => {
+      a.classList.toggle('active', a.dataset.section === id);
+    });
+    window.scrollTo(0,0);
+  }
+
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      switchSection(a.dataset.section);
+    });
+  });
+
+  // ===== TOAST =====
+  const toastMsgs = ['DISTRESSED. AUTHENTIC. SOLD.','ANTI-ESTABLISHMENT IS NOW A BRAND.','THE ZINE BECAME THE AD.','CHAOS, BOTTLED AND MARKETED.','REBEL SPIRIT. CORPORATE PRICE TAG.','GENERATION X SOLD BACK TO ITSELF.'];
+  let toastTimer;
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    clearTimeout(toastTimer);
+    t.textContent = '> ' + (msg || toastMsgs[Math.floor(Math.random()*toastMsgs.length)]);
+    t.classList.add('show');
+    toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+  }
+
+  // ===== SCROLL PROGRESS =====
+  window.addEventListener('scroll', () => {
+    const el = document.activeElement;
+    const pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+    document.getElementById('progressBar').style.width = pct + '%';
+  });
+
+  // ===== GALLERY FILTER =====
+  function filterGallery(cat, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.gallery-item').forEach(item => {
+      item.style.opacity = (cat === 'all' || item.dataset.cat === cat) ? '1' : '0.2';
+      item.style.transform = (cat === 'all' || item.dataset.cat === cat) ? 'scale(1)' : 'scale(0.95)';
+      item.style.transition = 'all 0.3s';
+    });
+  }
+
+  // ===== CURSOR TRAILS =====
+  let mx = 0, my = 0;
+  const trails = [document.getElementById('t1'), document.getElementById('t2'), document.getElementById('t3')];
+  let positions = [{x:0,y:0},{x:0,y:0},{x:0,y:0}];
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  function animTrail() {
+    positions[0].x += (mx - positions[0].x) * 0.5;
+    positions[0].y += (my - positions[0].y) * 0.5;
+    positions[1].x += (positions[0].x - positions[1].x) * 0.4;
+    positions[1].y += (positions[0].y - positions[1].y) * 0.4;
+    positions[2].x += (positions[1].x - positions[2].x) * 0.3;
+    positions[2].y += (positions[1].y - positions[2].y) * 0.3;
+    trails.forEach((t, i) => {
+      t.style.left = (positions[i].x - 3) + 'px';
+      t.style.top = (positions[i].y - 3) + 'px';
+      t.style.opacity = (0.6 - i * 0.15).toString();
+      t.style.width = (6 - i * 1.5) + 'px';
+      t.style.height = (6 - i * 1.5) + 'px';
+    });
+    requestAnimationFrame(animTrail);
+  }
+  animTrail();
+
+  // ===== WAVE CANVAS =====
+  let waveColor = '#8b3a1e';
+  let wavePhase = 0;
+  function setWaveMode(mode) {
+    if(mode === 'rust') waveColor = '#8b3a1e';
+    else if(mode === 'olive') waveColor = '#5a5e2e';
+    else waveColor = '#d4a017';
+  }
+  function drawWave() {
+    const canvas = document.getElementById('waveCanvas');
+    if(!canvas) return;
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#1a1612';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // draw wave
+    ctx.beginPath();
+    ctx.strokeStyle = waveColor;
+    ctx.lineWidth = 1.5;
+    for(let x = 0; x < canvas.width; x++) {
+      const y = 40 + Math.sin((x / 20) + wavePhase) * 14
+                   + Math.sin((x / 9) + wavePhase * 1.3) * 5
+                   + Math.sin((x / 40) + wavePhase * 0.7) * 10;
+      if(x === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+    // noise dots
+    for(let i = 0; i < 8; i++) {
+      const nx = Math.random() * canvas.width;
+      const ny = Math.random() * canvas.height;
+      ctx.fillStyle = waveColor;
+      ctx.globalAlpha = 0.3;
+      ctx.fillRect(nx, ny, 1, 1);
+    }
+    ctx.globalAlpha = 1;
+    // scanlines
+    ctx.strokeStyle = 'rgba(200,185,154,0.04)';
+    ctx.lineWidth = 0.5;
+    for(let y = 0; y < canvas.height; y += 3) {
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(canvas.width, y);
+      ctx.stroke();
+    }
+    wavePhase += 0.04;
+    requestAnimationFrame(drawWave);
+  }
+  drawWave();
+
+  // random toast on load
+  setTimeout(() => showToast('WELCOME TO THE ARCHIVE'), 1200);
+</script>
+</body>
+</html>
